@@ -28,4 +28,19 @@ Content-Type: application/json
 # Eliminar usuario con id=1
 DELETE {{URL}}/eliminar_usuario/1
 
+#######################################
+#PROYECTO
 
+###
+# Crear usuario
+POST {{URL}}/nuevo_recetas
+Content-Type: application/json
+
+{
+    "dieta": "dietas",
+    "nombre": "pollo con arroz",
+    "descripcion": "pechuga de pollo con arroz, rico y facil",
+    "carbohidrato": "arroz",
+    "proteina": "pechuga de pollo",
+    "condicion": "diabeticos"
+}
