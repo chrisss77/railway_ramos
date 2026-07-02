@@ -58,3 +58,6 @@ Content-Type: application/json
     "id": "1"
 }
 
+###
+# Obtener todos los usuarios
+GET {{URL}}/traer_recetas

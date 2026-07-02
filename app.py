@@ -175,6 +175,37 @@ def insertar_usuarios():
     response = jsonify({"resultado":"Agregado usuarios"})
     return response
 
+
+
+@app.route("/traer_recetas", methods=["GET"])
+@cross_origin()
+def listar_recetas():
+    #consulta SQL
+    sql = "SELECT id_dieta, nombre, descripcion, filtro_carbohidratos, filtro_proteina, filtro_condicion FROM Dietas"
+
+    #crear el cursor
+    cursor = mysql.connection.cursor()#mysql.connect.cursor()
+    cursor.execute(sql)
+
+    resultado = cursor.fetchall()
+
+    #cerrar la conexión
+    cursor.close()
+    response = make_response()
+
+    if resultado == None:
+        response = jsonify({"mensaje":None})
+        return response
+    else:
+        usuarios = []
+
+        for i in resultado:
+
+            p = {"id_dieta":i[0], "nombre":i[1], "descripcion":i[2], "filtro_carbohidratos":i[3], "filtro_proteina":i[4], "filtro_condicion":i[5]}
+            usuarios.append(p)
+
+        return jsonify(usuarios)
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
