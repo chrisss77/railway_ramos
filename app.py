@@ -145,6 +145,36 @@ def insertar_recetas():
     response = jsonify({"resultado":"Agregado nueva receta"})
     return response
 
+
+#########################################################################
+
+#USUARIO
+
+
+@app.route("/nuevo_usuarios", methods=["POST"])
+@cross_origin()
+def insertar_usuarios():
+    nombre = request.json["nombre"]
+    email = request.json["direccionmail"]
+    contrasenia = request.json["contraseña"]
+    edad = request.json["edad"]
+    id = request.json["id"]
+    
+
+    cursor = mysql.connection.cursor()
+
+    sql = "INSERT INTO Usuario(nombre, email, contrasenia, edad, id) values(%s, %s, %s, %s, %s);"
+    cursor.execute(sql, (nombre, email, contrasenia, edad, id))
+
+
+    mysql.connection.commit()
+
+    cursor.close()
+    response = make_response()
+
+    response = jsonify({"resultado":"Agregado usuarios"})
+    return response
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)

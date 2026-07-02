@@ -37,10 +37,24 @@ POST {{URL}}/nuevo_recetas
 Content-Type: application/json
 
 {
-    "dieta": "dietas",
+    "dieta": 1,
     "nombre": "pollo con arroz",
     "descripcion": "pechuga de pollo con arroz, rico y facil",
     "carbohidrato": "arroz",
     "proteina": "pechuga de pollo",
     "condicion": "diabeticos"
 }
+
+###
+# Crear usuario
+POST {{URL}}/nuevo_usuarios
+Content-Type: application/json
+
+{
+    "nombre": "christian",
+    "direccionmail": "christian.ramos@example.com",
+    "contraseña": "123456",
+    "edad": "18",
+    "id": "1"
+}
+
