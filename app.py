@@ -13,10 +13,10 @@ app = Flask(__name__)
 
 import os
 
-app.config["MYSQL_HOST"] = os.environ.get("DB_HOST")
-app.config["MYSQL_USER"] = os.environ.get("DB_USER")
-app.config["MYSQL_PASSWORD"] = os.environ.get("DB_PASSWORD")
-app.config["MYSQL_DB"] = os.environ.get("DB_NAME")
+app.config["MYSQL_HOST"] = "127.0.0.1" #os.environ.get("DB_HOST")
+app.config["MYSQL_USER"] = "root" #os.environ.get("DB_USER")
+app.config["MYSQL_PASSWORD"] = "aula07" #os.environ.get("DB_PASSWORD")
+app.config["MYSQL_DB"] = "callfit" #os.environ.get("DB_NAME")
 
 mysql = MySQL(app)
 
@@ -151,20 +151,20 @@ def insertar_recetas():
 #USUARIO
 
 
-@app.route("/nuevo_usuarios", methods=["POST"])
+@app.route("/", methods=["POST"])
 @cross_origin()
 def insertar_usuarios():
-    nombre = request.json["nombre"]
-    email = request.json["direccionmail"]
-    contrasenia = request.json["contraseña"]
-    edad = request.json["edad"]
-    id = request.json["id"]
+    glucosa = request.json["glucosa"]
+    fecha = request.json["fecha"]
+    nota = request.json["nota"]
+    comentarios = request.json["comentarios"]
+    Usuarioid = request.json["Usuario_id"]
     
 
     cursor = mysql.connection.cursor()
 
-    sql = "INSERT INTO Usuario(nombre, email, contrasenia, edad, id) values(%s, %s, %s, %s, %s);"
-    cursor.execute(sql, (nombre, email, contrasenia, edad, id))
+    sql = "INSERT INTO registro_glucosa(glucosa, fecha, Usuario_id, nota, comentarios, ) values(%s, %s, %s, %s, %s);"
+    cursor.execute(sql, (glucosa, fecha, Usuario_id, nota, comentarios, ))
 
 
     mysql.connection.commit()
@@ -172,7 +172,7 @@ def insertar_usuarios():
     cursor.close()
     response = make_response()
 
-    response = jsonify({"resultado":"Agregado usuarios"})
+    response = jsonify({"resultado":"glucosa guardad"})
     return response
 
 
@@ -206,6 +206,42 @@ def listar_recetas():
 
         return jsonify(usuarios)
 
+
+
+
+    #REGISTRAR GLUCOSA
+
+@app.route("/registro_glucosa", methods=["POST"])
+@cross_origin()
+def registrar_glucosa():
+    glucosa = request.json["glucosa"]
+    fecha = request.json["fecha"]
+    nota = request.json["nota"]
+    comentarios = request.json["comentarios"]
+    Usuario_id = request.json["Usuario_id"]
+    
+
+    cursor = mysql.connection.cursor()
+
+    sql = "INSERT INTO registro_glucosa(glucosa, fecha, Usuario_id, nota, comentarios) values(%s, %s, %s, %s, %s);"
+    cursor.execute(sql, (glucosa, fecha, Usuario_id, nota, comentarios ))
+
+
+    mysql.connection.commit()
+
+    cursor.close()
+    response = make_response()
+
+    response = jsonify({"resultado":"glucosa guardad"})
+    return response
+
+
+
+
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+
